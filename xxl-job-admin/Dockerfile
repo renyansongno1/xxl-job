@@ -1,11 +1,9 @@
-FROM openjdk:7-jre-slim
-MAINTAINER xuxueli
+FROM java:8-jdk-alpine
 
-ENV PARAMS=""
+COPY ./target/xxl-job-admin-2.1.1-SNAPSHOT.jar /usr/app/
 
-ENV TZ=PRC
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+WORKDIR /usr/app
 
-ADD target/xxl-job-admin-*.jar /app.jar
+RUN sh -c 'touch xxl-job-admin-2.1.1-SNAPSHOT.jar'
 
-ENTRYPOINT ["sh","-c","java -jar /app.jar $PARAMS"]
+ENTRYPOINT ["java", "-Xmx512m", "-Xms512m", "-jar", "xxl-job-admin-2.1.1-SNAPSHOT.jar"]
